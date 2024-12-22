@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Password Validation Check || PBL</title>
+    <title>Password Validation Check </title>
     <link rel="stylesheet" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Fontawesome Link for Icons -->
@@ -12,11 +12,44 @@
   <body>
     <div class="wrapper">
       <div class="pass-field">
-        <input type="password" placeholder="Create password">
+        <!-- <input type="sentence" placeholder="Enter a password"> -->
+        <input type="password" id="passwordInput" placeholder="Enter a password">
         <i class="fa-solid fa-eye"></i>
       </div>
       <div class="content">
-        <p>Password must contains</p>
+
+
+<!-- ************************ pop up *********************** -->
+
+    <!-- <input type="password" id="passwordInput" placeholder="Enter a password"> -->
+
+    <button class="validate-btn" onclick="checkPassword()">Validate Password</button>
+
+    <div id="overlay" onclick="closePopup()"></div>
+
+    <div id="popup">
+      <p id="popupMessage"></p>
+
+      <!-- <button class="close-btn" onclick="closePopup()">Suggest Password</button> -->
+
+      <button id="redirectButton" oneclick="closePopup()">Suggest Password</button>
+
+      <button class="close-btn" onclick="closePopup()">Close</button>
+      
+    </div>
+
+
+
+
+        <!-- <div id="button">
+          <button onclick="showPopup()">Submit</button>
+          <div id="overlay" onclick="closePopup()"></div>
+          <div id="popup">
+            <p>This is a popup message!</p>
+            <button class="close-btn" onclick="closePopup()">Close</button>
+          </div>
+        </div> -->
+
         <ul class="requirement-list">
           <li>
             <i class="fa-solid fa-circle"></i>
@@ -39,7 +72,12 @@
             <span>At least 1 uppercase letter (A...Z)</span>
           </li>
         </ul>
+
       </div>
     </div>
+
+
+
+
   </body>
 </html>

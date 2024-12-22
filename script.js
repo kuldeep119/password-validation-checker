@@ -36,3 +36,50 @@ eyeIcon.addEventListener("click", () => {
     // Update the eye icon class based on the password input type
     eyeIcon.className = `fa-solid fa-eye${passwordInput.type === "password" ? "" : "-slash"}`;
 });
+
+/* *************************** pop up *********************** */
+
+function showPopup() {
+    document.getElementById("overlay").style.display = "block";
+    document.getElementById("popup").style.display = "block";
+  }
+
+
+  function closePopup() {
+    document.getElementById("overlay").style.display = "none";
+    document.getElementById("popup").style.display = "none";
+  }
+
+
+  function checkPassword() {
+    const password = document.getElementById("passwordInput").value;
+    const messageElement = document.getElementById("popupMessage");
+
+    // Regular expression for validation
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^()'" ])[A-Za-z\d@$!%*?&#^()'" ]{8,}$/;
+
+    // Check if password is valid
+    if (regex.test(password)) {
+      messageElement.textContent = "Password is valid!";
+      messageElement.style.color = "green";
+
+      document.getElementById("redirectButton").style.display = "none"; //ide redirec Ht button
+
+    } else {
+      messageElement.textContent = "Password must contain following Suggestion's";
+      messageElement.style.color = "red";
+
+      document.getElementById("redirectButton").style.display = "inline-block"; // Show redirect button
+      
+    }
+
+    // Show the popup
+    document.getElementById("overlay").style.display = "block";
+    document.getElementById("popup").style.display = "block";
+  }
+
+
+
+  document.getElementById("redirectButton").addEventListener("click", function () {
+    window.location.href = "suggestion.html"; // Redirect to another page
+});
