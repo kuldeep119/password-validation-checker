@@ -18,164 +18,97 @@
         body {
             font-family: Arial, sans-serif;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
-            margin: 0;
-            /* background-color: #4285F4; */
-            background-image: url('background.jpg');
+            justify-items: center;
+            min-height: 100vh;
+            background-image: url(background.jpg);
             background-size: cover;
             background-position: center;
         }
-        input[type="text"] {
+        .Suggester{
+           background-color: aliceblue;
+           text-align: center;
+           width: 650px;
+           margin: 20px;
+           border-radius: 1rem;
+
+        }
+        .content{
+            display: flex;
+            flex-direction: column;
+            margin: 40px;
+        }
+        h2{
+            margin-top: 40px;
+        }
+        input, button {
+            margin: 15px;
             padding: 10px;
-            font-size: 15px;
-            width: 300px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-
+            font-size: 16px;
+            border-radius: .3rem;
         }
-        button {
-            padding: 10px 20px;
-            font-size: 18px;
-            color: white;
-            background-color: #007BFF;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+        .passwords {
+            font-weight: bold;
+            color: green;
+            margin: 30px;
+            background-color: aliceblue;
         }
-        button:hover {
-            background-color: #0056b3;
+        button{
+            background-color: rgb(8, 213, 213);
         }
-        #output1 {
-            margin-top: 20px;
-            font-size: 20px;
-            color: black;
+        button:hover{
+            background-color: rgb(0, 255, 255);
         }
-        #output2 {
-            margin-top: 20px;
-            font-size: 20px;
-            color: black;
-        }
-        #output3 {
-            margin-top: 20px;
-            font-size: 20px;
-            color: black;
-        }
-
-
-        .wrapper {
-            width: 325px;
-            overflow: hidden;
-            padding: 10px;
-            border-radius: 8px;
-            background: #fbfbf8;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.06);
-        }
-
-        /* .wrapper .pass-field {
-            height: 65px;
-            width: 100%;
-            position: relative;
-        } */
-
     </style>
 </head>
-
 <body>
-
-    <div class="wrapper">
-        <div class="pass-field">
-            <input type="text" id="sentenceInput" placeholder="Enter a sentence here">
-            <button onclick="displaySentence()">Suggest Pasword</button>
-
-            <div id="options">
-                <div id="output1"></div>
-                <div id="output2"></div>
-                <div id="output3"></div>
-            </div>
-        </div>
-    </div>
+    <div class="Suggester">
+    <h2>Password Suggester</h2>
+    <div class="content">
+    <input type="text" id="userInput" placeholder="Enter a base word">
+    <input type="number" id="passwordLength" placeholder="Enter password length" min="8" max="20">
+    <button onclick="generatePasswords()">Generate Passwords</button>
+    <div class="passwords" id="passwords"></div></div></div>
     
-
-    
-
     <script>
-        function removeConsecutiveDuplicates(input) {
-            if (input.length === 0) return "";
-
-            let result = input[0]; // Add the first character to the result
-
-            for (let i = 1; i < input.length; i++) {
-                if (input[i] !== input[i - 1]) {
-                    result += input[i];
-                }
+        function generatePasswords() {
+            const input = document.getElementById('userInput').value;
+            const length = parseInt(document.getElementById('passwordLength').value, 10);
+            
+            if (!input) {
+                alert('Please enter a base word!');
+                return;
             }
-
-            return result;
+            
+            if (isNaN(length) || length < 8) {
+                alert('Password length must be at least 8 characters!');
+                return;
+            }
+            if( isNaN(length) || length > 20){
+                alert('Password length cannot be exceeded after 20 characters!');
+                return;
+            }
+            
+            const passwords = [];
+            for (let i = 0; i < 3; i++) {
+                passwords.push(generateSecurePassword(input, length));
+            }
+            
+            const passwordContainer = document.getElementById('passwords');
+            passwordContainer.innerHTML = passwords.map(pwd => `<div class="password">${pwd}</div>`).join('');
         }
-
-
-        function displaySentence() {
-            const input = document.getElementById('sentenceInput').value;
-
-/************************** Option 1 ******************************/
-            let pass1 = input[0];
-            for (let i = 0; i < input.length; i++) {
-                if (input[i] === ' ') {
-                    pass1 += input[i + 1];
-                }
+        
+        function generateSecurePassword(base, length) {
+            const specialChars = '!@#$%^&*()_+{}[]<>?';
+            let password = base.split('').sort(() => Math.random() - 0.5).join('');
+            while (password.length < length - 2) {
+                password += specialChars[Math.floor(Math.random() * specialChars.length)];
             }
-            pass1 = removeConsecutiveDuplicates(pass1);
-
-/************************** Option 2 ******************************/
-            let pass2 = '';
-            let cnt = 0;
-            for (let i = 0; i < input.length; i++) {
-                if (input.charCodeAt(i) === 32) {
-                    if (cnt === 1) {
-                        // console.log('$');
-                        pass2 += String.fromCharCode(36);
-                    } else if (cnt === 2) {
-                        // console.log('*');
-                        pass2 += String.fromCharCode(42);
-                    } else if (cnt === 3) {
-                        // console.log('&');
-                        pass2 += String.fromCharCode(38);
-                    } else {
-                        // console.log(input[i - cnt]);
-                        pass2 += input[i - cnt];
-                    }
-                    cnt = -1;
-                }
-                cnt++;
-            }
-            pass2 = removeConsecutiveDuplicates(pass2);
-
-/************************** Option 3 ******************************/
-            let pass3 = '';
-            for (let i = 0; i < input.length; i++) {
-                if (input.charCodeAt(i) === 97) {
-                    pass3 += String.fromCharCode(64);
-                } else if (input.charCodeAt(i) === 115) {
-                    pass3 += String.fromCharCode(36);
-                } else if (input.charCodeAt(i) === 104) {
-                    pass3 += String.fromCharCode(35);
-                }
-            }
-            pass3 = removeConsecutiveDuplicates(pass3);
-
-/******************** Display password ****************************/
-            const output1 = document.getElementById('output1');
-            output1.textContent = "Option 1: " + pass1;
-
-            const output2 = document.getElementById('output2');
-            output2.textContent = "Option 2: " + pass2;
-
-            const output3 = document.getElementById('output3');
-            output3.textContent = "Option 3: " + pass3;
+            const randomNum = Math.floor(Math.random() * 100);
+            const randomSpecial = specialChars[Math.floor(Math.random() * specialChars.length)];
+            
+            return (password + randomNum + randomSpecial).slice(0, length);
         }
     </script>
 </body>
