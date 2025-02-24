@@ -101,6 +101,14 @@ body {
   .requirement-list li span {
     margin-left: 7px;
   }
+  .validate-btn{
+    width: 45%;
+    margin-left: 3%;
+  }
+
+  #redirectButton{
+    width: 45%;
+  }
 }
 
 /* *************************** pop up *********************** */
@@ -154,4 +162,20 @@ button {
 }
 button:hover {
   background-color: #0056b3;
+}
+#redirectButton{
+  margin-left: 3%;
+}
+
+@media screen and (max-width: 393px) {
+  .validate-btn{
+    width: 40%;
+    margin-left: 5%;
+  }
+
+  #redirectButton{
+    width: 40%;
+    margin-left: 10%;
+  }
+  
 }
