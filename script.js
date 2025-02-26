@@ -66,7 +66,7 @@ function showPopup() {
       document.getElementById("redirectButton").style.display = "none"; //ide redirec Ht button
 
     } else {
-      messageElement.textContent = "Password Doesn't match the Requirements";
+      messageElement.textContent = " Password doesn't match the requirements! ";
       messageElement.style.color = "red";
 
       document.getElementById("redirectButton").style.display = "inline-block"; // Show redirect button
